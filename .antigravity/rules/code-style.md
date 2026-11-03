@@ -20,6 +20,7 @@ globs: ["**/*"]
 
 ## 3. C++ Invariants (C++20)
 - RAII for all resources.
+- Zero `using namespace std;` (especially in headers). Always use explicit `std::`.
 - `std::unique_ptr` and `std::shared_ptr` instead of raw pointers.
 - Split files into `.hpp` and `.cpp`.
 - Custom exception types derived from `std::exception`.

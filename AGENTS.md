@@ -45,6 +45,7 @@ When writing or modifying SQL, DDL, DML, or PL/pgSQL stored procedures:
 - Standard: **C++20** with warnings enabled (`-Wall -Wextra -Wpedantic`).
 - Separate all classes into `.hpp` (header) and `.cpp` (implementation).
 - Memory Management: Zero raw `new` / `delete`. Use `std::make_unique` and `std::make_shared`.
+- Namespace Hygiene: STRICTLY FORBIDDEN to write `using namespace std;` (especially in headers). Always use explicit `std::` (`std::make_unique`, `std::vector`, `std::string_view`). Rationale: Prevents namespace pollution, identifier collisions (e.g., `count`, `size`, `byte`), and satisfies senior academic grading standards. Inside local `.cpp` function bodies, selective symbol imports (e.g., `using std::make_unique;`) are permitted if agreed by team.
 - Concurrency: Standard library primitives (`std::thread`, `std::mutex`, `std::unique_lock`, `std::condition_variable`).
 - Naming:
   - Classes/Structs/Enums: `PascalCase` (`LockerStation`, `ParcelSize`).
