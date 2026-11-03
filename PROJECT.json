@@ -1,0 +1,36 @@
+{
+  "topicId": "P-LOCKER",
+  "topicTitle": "Transactional Parcel Locker Delivery System",
+  "domain": "Logistics & Automated Parcel Delivery",
+  "databaseEngine": "PostgreSQL 15+",
+  "languages": ["C++20", "Java 21", "PL/pgSQL"],
+  "authors": [
+    {
+      "name": "Nikita Kalashnikov",
+      "github": "nakkalashnikov",
+      "role": "Database Architect & Core Domain Engine"
+    },
+    {
+      "name": "Serhii Bulovinov",
+      "github": "SerhiiBulo",
+      "role": "C++ Station Controller & Hardware Simulator"
+    },
+    {
+      "name": "Artem Tiutiun",
+      "github": "ArtemTiutiun",
+      "role": "Java Logistics Hub & Dispatching Service"
+    }
+  ],
+  "courses": [
+    {
+      "course": "Object-Oriented Programming",
+      "professor": "Prof. Kutria",
+      "targetScore": "100/100 (Max 140 available)"
+    },
+    {
+      "course": "Databases",
+      "professor": "Prof. Baraban",
+      "targetScore": "Top Grade"
+    }
+  ]
+}
