@@ -1,13 +1,5 @@
--- ============================================================================
--- Parcel Locker Delivery System — Relational Schema (PostgreSQL 15+)
--- Complies with 3NF Normalization and Business Rules BR1 - BR8
--- ============================================================================
-
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- ----------------------------------------------------------------------------
--- 1. Physical Stations
--- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS stations (
     station_id          VARCHAR(32) PRIMARY KEY,
     name                VARCHAR(128) NOT NULL,
@@ -18,9 +10,6 @@ CREATE TABLE IF NOT EXISTS stations (
     created_at          TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- ----------------------------------------------------------------------------
--- 2. Compartment Types & Compartments
--- ----------------------------------------------------------------------------
 CREATE TYPE compartment_tier AS ENUM ('SMALL', 'MEDIUM', 'LARGE', 'REFRIGERATED');
 CREATE TYPE compartment_state AS ENUM ('AVAILABLE', 'RESERVED', 'OCCUPIED', 'MAINTENANCE');
 
@@ -37,9 +26,6 @@ CREATE TABLE IF NOT EXISTS compartments (
     last_modified       TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- ----------------------------------------------------------------------------
--- 3. Users: Customers & Couriers
--- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS customers (
     customer_id         UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     full_name           VARCHAR(128) NOT NULL,
@@ -57,9 +43,6 @@ CREATE TABLE IF NOT EXISTS couriers (
     created_at          TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- ----------------------------------------------------------------------------
--- 4. Parcels
--- ----------------------------------------------------------------------------
 CREATE TYPE parcel_status AS ENUM (
     'CREATED',
     'ASSIGNED_TO_COURIER',
@@ -89,9 +72,6 @@ CREATE TABLE IF NOT EXISTS parcels (
     updated_at          TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- ----------------------------------------------------------------------------
--- 5. Immutable Audit Event Log (BR6)
--- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS audit_event_log (
     event_id            BIGSERIAL PRIMARY KEY,
     entity_name         VARCHAR(64) NOT NULL,

@@ -2,10 +2,6 @@ package com.parcellocker.domain;
 
 import java.time.Instant;
 
-/**
- * Immutable Data Transfer Object representing a parcel in the logistics network.
- * Uses Java 21 Record for immutability.
- */
 public record ParcelDto(
     String trackingNumber,
     String recipientPhone,

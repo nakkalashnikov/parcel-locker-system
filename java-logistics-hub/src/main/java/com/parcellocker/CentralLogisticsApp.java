@@ -3,10 +3,6 @@ package com.parcellocker;
 import com.parcellocker.domain.ParcelDto;
 import java.time.Instant;
 
-/**
- * Main coordinating application class for Java Logistics Hub.
- * Fulfills Main class, Non-empty constructor, and AutoCloseable requirements.
- */
 public class CentralLogisticsApp implements AutoCloseable {
 
     private final String hubIdentifier;
@@ -24,8 +20,7 @@ public class CentralLogisticsApp implements AutoCloseable {
 
     public void run() {
         System.out.println("====================================================");
-        System.out.println("  🌐 Central Logistics Dispatcher Hub: " + hubIdentifier);
-        System.out.println("  Java 21 Modern Architecture");
+        System.out.println("  Central Logistics Dispatcher Hub: " + hubIdentifier);
         System.out.println("====================================================");
 
         ParcelDto sample = new ParcelDto(
@@ -46,7 +41,7 @@ public class CentralLogisticsApp implements AutoCloseable {
     @Override
     public void close() {
         if (isRunning) {
-            System.out.println("Shutting down Logistics Hub (" + hubIdentifier + ")... Resources released.");
+            System.out.println("Shutting down Logistics Hub (" + hubIdentifier + ")...");
             isRunning = false;
         }
     }

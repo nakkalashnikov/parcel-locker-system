@@ -61,4 +61,4 @@ enum class CompartmentState {
     return "UNKNOWN";
 }
 
-} // namespace locker::domain
+}

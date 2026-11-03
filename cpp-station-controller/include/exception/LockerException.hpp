@@ -35,4 +35,4 @@ public:
         : LockerException("Hardware sensor or lock failure: " + component) {}
 };
 
-} // namespace locker::exception
+}

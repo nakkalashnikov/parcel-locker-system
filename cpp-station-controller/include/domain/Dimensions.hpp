@@ -5,9 +5,6 @@
 
 namespace locker::domain {
 
-/**
- * @brief Physical 3D bounding box and weight specifications.
- */
 struct Dimensions {
     double width_cm{0.0};
     double height_cm{0.0};
@@ -35,4 +32,4 @@ struct Dimensions {
     }
 };
 
-} // namespace locker::domain
+}

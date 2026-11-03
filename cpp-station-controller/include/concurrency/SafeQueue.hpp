@@ -7,10 +7,6 @@
 
 namespace locker::concurrency {
 
-/**
- * @brief Thread-safe generic bounded message queue.
- * Satisfies Prof. Kutria's requirements: Template class + Parallel programming.
- */
 template <typename T>
 class SafeQueue {
 public:
@@ -79,4 +75,4 @@ private:
     bool is_shutdown_{false};
 };
 
-} // namespace locker::concurrency
+}

@@ -50,4 +50,4 @@ private:
     ParcelStatus status_{ParcelStatus::Created};
 };
 
-} // namespace locker::domain
+}
