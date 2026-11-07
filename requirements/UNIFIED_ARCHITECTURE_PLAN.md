@@ -18,7 +18,7 @@ This document establishes the unified system architecture bridging the requireme
                   +----------------------------------------------+
                                   ^              ^
                                   |              |
-                       (libpqxx / CLI)         (JDBC / HikariCP)
+                          (libpqxx)                (JDBC)
                                   |              |
                                   v              v
       +-----------------------------+          +-----------------------------+
@@ -67,13 +67,14 @@ This document establishes the unified system architecture bridging the requireme
 
 ---
 
-## 3. Team Member Allocation (3 Developers)
+## 3. Team Member Allocation
 
 | Developer | Primary Responsibility | Target Deliverables |
 | :--- | :--- | :--- |
-| **Nikita Kalashnikov** | Database Architecture & Core Domain Engine | PostgreSQL DDL, 8 business rules, central transaction + rollback, concurrency test scripts, C++ domain core models. |
-| **Serhii Bulovinov** | C++ Station Controller & Hardware Simulator | Thread-safe locker station, polymorphic compartment hierarchy, gtest test suite, sensor event loop. |
-| **Artem Tiutiun** | Java Logistics Hub & Dispatching Service | Generic repository, async notification worker pool, reporting/analytics streams, JUnit 5 test suite. |
+| **Nikita Kalashnikov** | Tech lead, database architecture, code quality and integration | Database contract, schema (#3), `sp_deposit_parcel` and rollback demo (#5), CI and contract tests, reviews, the first vertical slice. |
+| **Serhii Bulovinov** | C++ station controller and hardware simulator | Thread-safe locker station, polymorphic compartment hierarchy, database adapter, gtest test suite, sensor event loop. |
+| **Artem Tiutiun** | Java logistics hub and dispatching service | Generic repository, database adapter, async notification worker pool, reporting and analytics streams, JUnit 5 test suite. |
+| **Nazar** | Database rules, analytics and documentation | ERD and normalization (#2), business rule triggers (#4), concurrency demo (#6), views and indexes (#7). Starts after the schema (#3) is merged. |
 
 ---
 
