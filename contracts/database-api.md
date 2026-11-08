@@ -34,7 +34,7 @@ Application roles have no direct `INSERT`, `UPDATE` or `DELETE` on tables. Proce
 | `sp_start_transit` | `p_tracking_number`, `p_courier_id` | none | BR4 |
 | `sp_redirect_to_fallback` | `p_tracking_number` | `out_fallback_station_id` | BR5 |
 | `sp_sweep_expired_parcels` | none | `out_expired_count` | BR7 |
-| `sp_release_security_lock` | `p_tracking_number` | none | BR3 |
+| `sp_release_security_lock` | `p_tracking_number` | `out_pin_expiry` | BR3 |
 | `sp_claim_notifications` | `p_batch_size` | Claimed rows | Outbox |
 | `sp_complete_notification` | `p_notification_id` | none | Outbox |
 
@@ -86,9 +86,12 @@ These go into issue #3:
 - Add `notification_outbox`.
 - Make `CREATE TYPE` repeatable, so the schema can be reinstalled from a clean script.
 
+## Decisions on lock and expiry
+
+- A `SECURITY_LOCKED` parcel is returned after 72 hours like any other stored parcel. `sp_sweep_expired_parcels` covers both `STORED_IN_LOCKER` and `SECURITY_LOCKED`, counted from the moment the parcel entered its compartment.
+- `sp_release_security_lock` issues a new PIN with a new 72-hour window. The new PIN goes through `notification_outbox` like the first one. The failed attempt counter is reset. The return deadline is not extended.
+
 ## Open questions
 
-1. What happens to a `SECURITY_LOCKED` parcel that nobody verifies? BR7 only sweeps `STORED_IN_LOCKER`.
-2. Does `sp_release_security_lock` issue a new PIN and a new 72 hours, or keep the old expiry?
-3. Is `pgcrypto` hashing acceptable for BR3, which says "encrypted"? Hashing is the safer design, but the PIN sits readable in the outbox until it is sent.
-4. BR8 mentions a biometric or mobile token. The contract covers only the PIN so far.
+1. Is `pgcrypto` hashing acceptable for BR3, which says "encrypted"? Hashing is the safer design, but the PIN sits readable in the outbox until it is sent.
+2. BR8 mentions a biometric or mobile token. The contract covers only the PIN so far.

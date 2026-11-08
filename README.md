@@ -16,7 +16,7 @@ This project is engineered to fulfill the joint curriculum requirements for:
 - **Nikita Kalashnikov** ([@nakkalashnikov](https://github.com/nakkalashnikov)) — *Tech Lead, Database Architecture, Code Quality & Integration*
 - **Serhii Bulovinov** ([@SerhiiBulo](https://github.com/SerhiiBulo)) — *C++ Station Controller & Hardware Simulator*
 - **Artem Tiutiun** ([@ArtemTiutiun](https://github.com/ArtemTiutiun)) — *Java Logistics Hub & Dispatching Service*
-- **Nazar** ([@Dash-Nk](https://github.com/Dash-Nk)) — *Database Rules, Analytics & Documentation*
+- **Nazar Kuryliv** ([@Dash-Nk](https://github.com/Dash-Nk)) — *Database Rules, Analytics & Documentation*
 
 ---
 
