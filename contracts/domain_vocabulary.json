@@ -1,0 +1,48 @@
+{
+  "parcel_status": [
+    "CREATED",
+    "ASSIGNED_TO_COURIER",
+    "IN_TRANSIT",
+    "STORED_IN_LOCKER",
+    "DELIVERED",
+    "SECURITY_LOCKED",
+    "EXPIRED_RETURN_PENDING",
+    "RETURNED"
+  ],
+  "parcel_status_transitions": {
+    "CREATED": ["ASSIGNED_TO_COURIER"],
+    "ASSIGNED_TO_COURIER": ["IN_TRANSIT"],
+    "IN_TRANSIT": ["STORED_IN_LOCKER"],
+    "STORED_IN_LOCKER": ["DELIVERED", "SECURITY_LOCKED", "EXPIRED_RETURN_PENDING"],
+    "SECURITY_LOCKED": ["STORED_IN_LOCKER", "EXPIRED_RETURN_PENDING"],
+    "EXPIRED_RETURN_PENDING": ["RETURNED"],
+    "DELIVERED": [],
+    "RETURNED": []
+  },
+  "compartment_state": ["AVAILABLE", "RESERVED", "OCCUPIED", "MAINTENANCE"],
+  "compartment_tier": ["SMALL", "MEDIUM", "LARGE", "REFRIGERATED"],
+  "courier_shift_status": ["ON_DUTY", "OFF_DUTY"],
+  "assignment_purpose": ["DELIVERY", "RETURN"],
+  "assignment_status": ["ACTIVE", "COMPLETED", "CANCELLED"],
+  "pickup_pin_outcome": ["ACCEPTED", "REJECTED", "EXPIRED", "SECURITY_LOCKED"],
+  "audit_event_type": [
+    "DOOR_OPENED",
+    "DOOR_CLOSED",
+    "STATUS_CHANGED",
+    "COMPARTMENT_STATE_CHANGED",
+    "ACCESS_GRANTED",
+    "ACCESS_DENIED",
+    "PIN_ATTEMPT_FAILED"
+  ],
+  "error_codes": {
+    "LK001": "COMPARTMENT_UNAVAILABLE",
+    "LK002": "PARCEL_DOES_NOT_FIT",
+    "LK003": "COURIER_NOT_ASSIGNED",
+    "LK004": "COURIER_OFF_DUTY",
+    "LK005": "INVALID_PARCEL_TRANSITION",
+    "LK006": "DOOR_SENSOR_NOT_CONFIRMED",
+    "LK007": "NO_FALLBACK_STATION",
+    "LK008": "PARCEL_NOT_FOUND",
+    "LK009": "AUDIT_LOG_IMMUTABLE"
+  }
+}

@@ -8,7 +8,7 @@
     {
       "name": "Nikita Kalashnikov",
       "github": "nakkalashnikov",
-      "role": "Database Architect & Core Domain Engine"
+      "role": "Tech Lead, Database Architecture, Code Quality & Integration"
     },
     {
       "name": "Serhii Bulovinov",
@@ -19,6 +19,11 @@
       "name": "Artem Tiutiun",
       "github": "ArtemTiutiun",
       "role": "Java Logistics Hub & Dispatching Service"
+    },
+    {
+      "name": "Nazar Kuryliv",
+      "github": "Dash-Nk",
+      "role": "Database Rules, Analytics & Documentation"
     }
   ],
   "courses": [

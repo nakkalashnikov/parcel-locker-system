@@ -13,9 +13,10 @@ This project is engineered to fulfill the joint curriculum requirements for:
 ---
 
 ## 👥 Authors & Roles
-- **Nikita Kalashnikov** ([@nakkalashnikov](https://github.com/nakkalashnikov)) — *Database Architect & Core Domain Engine*
+- **Nikita Kalashnikov** ([@nakkalashnikov](https://github.com/nakkalashnikov)) — *Tech Lead, Database Architecture, Code Quality & Integration*
 - **Serhii Bulovinov** ([@SerhiiBulo](https://github.com/SerhiiBulo)) — *C++ Station Controller & Hardware Simulator*
 - **Artem Tiutiun** ([@ArtemTiutiun](https://github.com/ArtemTiutiun)) — *Java Logistics Hub & Dispatching Service*
+- **Nazar Kuryliv** ([@Dash-Nk](https://github.com/Dash-Nk)) — *Database Rules, Analytics & Documentation*
 
 ---
 
@@ -30,7 +31,7 @@ This project is engineered to fulfill the joint curriculum requirements for:
                   +----------------------------------------------+
                                   ^              ^
                                   |              |
-                       (libpqxx / CLI)         (JDBC / HikariCP)
+                          (libpqxx)                (JDBC)
                                   |              |
                                   v              v
       +-----------------------------+          +-----------------------------+
@@ -53,8 +54,9 @@ All detailed specifications, grading criteria, and agent directives are organize
 - 📋 [**OOP Course Rubric (Kutria)**](requirements/OOP_COURSE_REQUIREMENTS.md): Complete breakdown of the 140-point rubric for C++ and Java.
 - 🗄️ [**Database Course Rubric (Baraban)**](requirements/DATABASE_COURSE_REQUIREMENTS.md): 8 formal business rules, central transaction with rollback, and concurrency specs.
 - 🏗️ [**Unified Architecture Plan**](requirements/UNIFIED_ARCHITECTURE_PLAN.md): Two-in-One system strategy, milestone schedule, and team task allocation.
-- 📐 [**Code Quality & Agent Directives**](requirements/CODE_QUALITY_AND_AGENT_RULES.md): The **<= 350 lines/file limit**, human-readable code manifesto, and modern clean-code conventions.
-- 🤖 [**AGENTS.md**](AGENTS.md): Global rules and instructions for AI agents working in this repository.
+- 🤖 [**AGENTS.md**](AGENTS.md): The single source of engineering rules for people and AI agents.
+- 🧭 [**Architecture Decisions**](docs/adr/README.md): What we decided, why, and which alternatives we rejected.
+- 🔌 [**Database Contract**](contracts/database-api.md): The only interface between the database, the C++ station and the Java hub.
 - 📑 [**PROJECT.json**](PROJECT.json): Official topic registration metadata.
 
 ---
@@ -66,8 +68,9 @@ parcel-locker-system/
 ├── requirements/                  # Official course rubrics and architecture blueprints
 │   ├── OOP_COURSE_REQUIREMENTS.md
 │   ├── DATABASE_COURSE_REQUIREMENTS.md
-│   ├── UNIFIED_ARCHITECTURE_PLAN.md
-│   └── CODE_QUALITY_AND_AGENT_RULES.md
+│   └── UNIFIED_ARCHITECTURE_PLAN.md
+├── contracts/                     # Database API and shared vocabulary between subsystems
+├── docs/adr/                      # Architecture decision records
 ├── database/                      # PostgreSQL DDL, procedures, and concurrency tests
 │   └── schema.sql
 ├── cpp-station-controller/        # C++20 Edge station controller and hardware simulator
@@ -80,7 +83,7 @@ parcel-locker-system/
 ├── .antigravity/                  # Antigravity agent configuration and workspace rules
 │   └── rules/
 │       └── code-style.md
-├── AGENTS.md                      # AI instructions for Claude, Cursor, and Antigravity
+├── AGENTS.md                      # Engineering rules for people and AI agents
 ├── PROJECT.json                   # Project topic declaration
 └── README.md
 ```
