@@ -24,7 +24,10 @@
   "courier_shift_status": ["ON_DUTY", "OFF_DUTY"],
   "assignment_purpose": ["DELIVERY", "RETURN"],
   "assignment_status": ["ACTIVE", "COMPLETED", "CANCELLED"],
+  "pickup_pin_status": ["ACTIVE", "USED", "EXPIRED", "REVOKED"],
   "pickup_pin_outcome": ["ACCEPTED", "REJECTED", "EXPIRED", "SECURITY_LOCKED"],
+  "notification_kind": ["PIN_ISSUED", "RETURN_SCHEDULED", "REDIRECTED"],
+  "notification_status": ["PENDING", "CLAIMED", "SENT", "FAILED"],
   "audit_event_type": [
     "DOOR_OPENED",
     "DOOR_CLOSED",
