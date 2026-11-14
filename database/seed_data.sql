@@ -6,18 +6,25 @@ INSERT INTO stations (station_id, name, address, latitude, longitude, is_active)
 ('POZ-001', 'Paczkomat Poznań Stary Browar', 'ul. Półwiejska 42, 61-888 Poznań', 52.4012, 16.9272, TRUE)
 ON CONFLICT (station_id) DO NOTHING;
 
-INSERT INTO compartments (compartment_id, station_id, tier, state, max_weight_kg, width_cm, height_cm, depth_cm, is_locked) VALUES
-('WAW-001-A01', 'WAW-001', 'SMALL', 'AVAILABLE', 5.00, 41.00, 8.00, 64.00, TRUE),
-('WAW-001-A02', 'WAW-001', 'SMALL', 'AVAILABLE', 5.00, 41.00, 8.00, 64.00, TRUE),
-('WAW-001-B01', 'WAW-001', 'MEDIUM', 'AVAILABLE', 15.00, 41.00, 19.00, 64.00, TRUE),
-('WAW-001-B02', 'WAW-001', 'MEDIUM', 'AVAILABLE', 15.00, 41.00, 19.00, 64.00, TRUE),
-('WAW-001-C01', 'WAW-001', 'LARGE', 'AVAILABLE', 25.00, 41.00, 38.00, 64.00, TRUE),
-('WAW-001-R01', 'WAW-001', 'REFRIGERATED', 'AVAILABLE', 12.00, 41.00, 25.00, 64.00, TRUE)
+INSERT INTO compartment_tier_specs (tier, max_weight_kg, width_cm, height_cm, depth_cm) VALUES
+('SMALL', 5.00, 41.00, 8.00, 64.00),
+('MEDIUM', 15.00, 41.00, 19.00, 64.00),
+('LARGE', 25.00, 41.00, 38.00, 64.00),
+('REFRIGERATED', 12.00, 41.00, 25.00, 64.00)
+ON CONFLICT (tier) DO NOTHING;
+
+INSERT INTO compartments (compartment_id, station_id, tier, state, is_locked) VALUES
+('WAW-001-A01', 'WAW-001', 'SMALL', 'AVAILABLE', TRUE),
+('WAW-001-A02', 'WAW-001', 'SMALL', 'AVAILABLE', TRUE),
+('WAW-001-B01', 'WAW-001', 'MEDIUM', 'AVAILABLE', TRUE),
+('WAW-001-B02', 'WAW-001', 'MEDIUM', 'AVAILABLE', TRUE),
+('WAW-001-C01', 'WAW-001', 'LARGE', 'AVAILABLE', TRUE),
+('WAW-001-R01', 'WAW-001', 'REFRIGERATED', 'AVAILABLE', TRUE)
 ON CONFLICT (compartment_id) DO NOTHING;
 
-INSERT INTO couriers (courier_id, full_name, phone_number, is_on_duty, vehicle_plate) VALUES
-('c0000001-0000-0000-0000-000000000001', 'Piotr Wiśniewski', '+48 601 234 567', TRUE, 'WI 4892A'),
-('c0000002-0000-0000-0000-000000000002', 'Tomasz Kowalczyk', '+48 602 345 678', TRUE, 'KR 8310E')
+INSERT INTO couriers (courier_id, full_name, phone_number, shift_status, vehicle_plate) VALUES
+('c0000001-0000-0000-0000-000000000001', 'Piotr Wiśniewski', '+48 601 234 567', 'ON_DUTY', 'WI 4892A'),
+('c0000002-0000-0000-0000-000000000002', 'Tomasz Kowalczyk', '+48 602 345 678', 'ON_DUTY', 'KR 8310E')
 ON CONFLICT (phone_number) DO NOTHING;
 
 INSERT INTO customers (customer_id, full_name, phone_number, email) VALUES
