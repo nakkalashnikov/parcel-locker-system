@@ -6,6 +6,7 @@ PostgreSQL 15+. The global rules in the [root AGENTS.md](../AGENTS.md) apply. Th
 
 ```text
 database/
+├── install_order.txt
 ├── schema.sql
 ├── seed_data.sql
 ├── rules/           triggers and constraints for BR1-BR8
@@ -32,3 +33,4 @@ database/
 - Procedures do not issue `COMMIT`. The caller owns the transaction boundary.
 - Every status change and access attempt writes to `audit_event_log`, which is append-only.
 - Scripts are repeatable from an empty database.
+- `install_order.txt` lists, in order, the files that `scripts/db_reset.sh` installs. A line may be a glob. Demo and test scripts stay out of it and are run by hand.

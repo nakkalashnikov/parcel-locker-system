@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: parcel-locker-postgres
+    environment:
+      POSTGRES_DB: parcel_locker
+      POSTGRES_USER: locker_owner
+      POSTGRES_PASSWORD: locker_owner_dev_password
+    ports:
+      - "${LOCKER_DB_PORT:-5433}:5432"
+    volumes:
+      - parcel_locker_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U locker_owner -d parcel_locker"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  parcel_locker_data:
