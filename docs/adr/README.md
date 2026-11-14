@@ -11,6 +11,7 @@ Each record states one decision, why we made it and what we rejected. They stop 
 | [0005](0005-rich-domain-model.md) | Domain objects change through business methods and a transition table |
 | [0006](0006-design-patterns.md) | The patterns we use and the ones we rejected |
 | [0007](0007-pull-request-workflow.md) | All work reaches `main` through pull requests |
+| [0008](0008-web-ui-built-after-backends.md) | The web UI is a separate project built after the backends |
 
 To change a decision, add a new ADR that replaces the old one and mark the old one `Superseded by ADR-XXXX`.
 

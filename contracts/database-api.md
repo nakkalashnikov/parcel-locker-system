@@ -42,7 +42,7 @@ Application roles have no direct `INSERT`, `UPDATE` or `DELETE` on tables. Proce
 
 | View | Read by | Shows |
 | :--- | :--- | :--- |
-| `v_station_compartments` | Station | Compartments of a station, with tier, state and capacity |
+| `v_station_compartments` | Station | Compartments of a station, with tier, state and capacity taken from `compartment_tier_specs` |
 | `v_station_parcels` | Station | Parcels expected at or stored in a station, without PIN data |
 | `v_station_tier_capacity` | Hub | Free compartments per station and tier |
 | `v_parcel_tracking` | Hub | Current status and location of parcels, without PIN data |
@@ -71,25 +71,31 @@ Business failures use `RAISE EXCEPTION` with a code from `error_codes` in the vo
 - **Choosing a compartment.** The station picks a candidate through polymorphic `canAccommodate`, then calls `sp_reserve_compartment`. On `LK001` it tries the next candidate. This is the "receive an alternate compartment" case of BR2.
 - **Fit.** BR1 is strict: a parcel whose dimension exactly equals the compartment's is rejected, in all three languages.
 - **Wrong PIN.** `sp_verify_pickup_pin` returns an outcome and does not raise. A raised error would also undo the failed attempt counter.
-- **PIN delivery.** The database generates the PIN and stores only its hash on the parcel. `sp_deposit_parcel` writes the PIN to `notification_outbox` in the same transaction, so a rolled-back deposit never notifies anyone. The station never sees the PIN. `sp_complete_notification` erases it from the outbox after sending.
+- **PIN delivery.** The database generates the PIN and stores only its hash in `pickup_pins`. `sp_deposit_parcel` writes the PIN to `notification_outbox` in the same transaction, so a rolled-back deposit never notifies anyone. The station never sees the PIN. `sp_complete_notification` erases it from the outbox after sending.
+- **One active PIN.** A parcel has at most one `ACTIVE` PIN. Releasing a security lock marks the old PIN `REVOKED` and inserts a new one.
+- **Fallback distance.** Distance between stations is never stored. `fn_station_distance_km` computes it from coordinates, a trigger rejects a `station_fallbacks` pair further apart than 3 km, and `sp_redirect_to_fallback` picks the nearest pair that has a free compartment of the needed tier.
 - **Claiming notifications.** `sp_claim_notifications` uses `FOR UPDATE SKIP LOCKED`, so parallel hub workers never send the same notification twice.
 
 ## Schema changes this contract needs
 
 These go into issue #3:
 
-- Add `courier_assignments` with purpose and status, and at most one active assignment per parcel. Remove `parcels.courier_id`. BR7 needs a delivery courier and a return courier for one parcel.
-- Add `station_fallbacks`, an associative table of station pairs with their distance. BR5 needs it.
-- Add `parcels.requires_refrigeration`. The C++ `Parcel` has this and the table does not.
+- Add `compartment_tier_specs`, one row per tier with the maximum weight and the three dimensions. `compartments` keeps only its tier and refers to this table, so the dimensions are not repeated for every compartment (third normal form).
+- Add `courier_assignments` with purpose and status, and at most one active assignment per parcel and purpose. Remove `parcels.courier_id`. BR7 needs a delivery courier and a return courier for one parcel.
+- Add `station_fallbacks`, an associative table of designated station pairs. Each direction is its own row. It has no distance column, see "Fallback distance" above. BR5 needs it.
+- Add `pickup_pins` with the PIN hash, a status (`ACTIVE`, `USED`, `EXPIRED`, `REVOKED`), issue and expiry time and the failed attempt counter. The PIN columns leave `parcels`.
+- Add `parcel_status_transitions`, the allowed pairs of statuses as data, filled from `parcel_status_transitions` in the vocabulary.
+- Add `parcels.requires_refrigeration` and `parcels.stored_at`. The C++ `Parcel` has the first and the table does not. The second is when the parcel entered its compartment, and the 72-hour sweep counts from it.
 - Replace `couriers.is_on_duty` with `shift_status`, matching BR4.
 - Add `RETURNED` to `parcel_status`. Without it, a returned parcel never leaves its compartment.
-- Add `notification_outbox`.
+- Add `notification_outbox` with kind, status, attempt counter and payload.
+- Turn `audit_event_log.event_type` into the enum `audit_event_type` and add `actor_role`.
 - Make `CREATE TYPE` repeatable, so the schema can be reinstalled from a clean script.
 
 ## Decisions on lock and expiry
 
 - A `SECURITY_LOCKED` parcel is returned after 72 hours like any other stored parcel. `sp_sweep_expired_parcels` covers both `STORED_IN_LOCKER` and `SECURITY_LOCKED`, counted from the moment the parcel entered its compartment.
-- `sp_release_security_lock` issues a new PIN with a new 72-hour window. The new PIN goes through `notification_outbox` like the first one. The failed attempt counter is reset. The return deadline is not extended.
+- `sp_release_security_lock` revokes the old PIN and issues a new one with a new 72-hour window. The new PIN goes through `notification_outbox` like the first one. The new PIN starts with zero failed attempts. The return deadline is not extended.
 
 ## Open questions
 
